@@ -1,0 +1,52 @@
+[
+    {
+        "type": "web",
+        "name": "Web Server",
+        "icon": "server.rack"
+    },
+    {
+        "type": "vpn",
+        "name": "VPN Server",
+        "icon": "server.rack"
+    },
+    {
+        "type": "dns",
+        "name": "DNS Server",
+        "icon": "server.rack"
+    },
+    {
+        "type": "firewall",
+        "name": "Firewall",
+        "icon": "server.rack"
+    },
+    {
+        "type": "computer",
+        "name": "Computer",
+        "icon": "desktopcomputer"
+    },
+    {
+        "type": "tv",
+        "name": "TV",
+        "icon": "tv"
+    },
+    {
+        "type": "fan",
+        "name": "Smart Fan",
+        "icon": "fanblades"
+    },
+    {
+        "type": "router",
+        "name": "WiFi Router",
+        "icon": "wifi.router"
+    },
+    {
+        "type": "switch",
+        "name": "Network Switch",
+        "icon": "server.rack"
+    },
+    {
+        "type": "ISP",
+        "name": "Internet ISP",
+        "icon": "network"
+    }
+]

@@ -1,0 +1,82 @@
+[
+    {
+        "type": "web",
+        "name": "Web Server",
+        "icon": "server.rack",
+        "wanQuantity": 1,
+        "lanQuantity": 0,
+        "pingSupport": true
+    },
+    {
+        "type": "vpn",
+        "name": "VPN Server",
+        "icon": "server.rack",
+        "wanQuantity": 1,
+        "lanQuantity": 1,
+        "pingSupport": true
+    },
+    {
+        "type": "dns",
+        "name": "DNS Server",
+        "icon": "server.rack",
+        "wanQuantity": 1,
+        "lanQuantity": 1,
+        "pingSupport": true
+    },
+    {
+        "type": "firewall",
+        "name": "Firewall",
+        "icon": "server.rack",
+        "wanQuantity": 1,
+        "lanQuantity": 1,
+        "pingSupport": false
+    },
+    {
+        "type": "computer",
+        "name": "Computer",
+        "icon": "desktopcomputer",
+        "wanQuantity": 0,
+        "lanQuantity": 1,
+        "pingSupport": true
+    },
+    {
+        "type": "tv",
+        "name": "TV",
+        "icon": "tv",
+        "wanQuantity": 0,
+        "lanQuantity": 1,
+        "pingSupport": false
+    },
+    {
+        "type": "fan",
+        "name": "Smart Fan",
+        "icon": "fanblades",
+        "wanQuantity": 0,
+        "lanQuantity": 0,
+        "pingSupport": false
+    },
+    {
+        "type": "router",
+        "name": "WiFi Router",
+        "icon": "wifi.router",
+        "wanQuantity": 1,
+        "lanQuantity": 4,
+        "pingSupport": true
+    },
+    {
+        "type": "switch",
+        "name": "Network Switch",
+        "icon": "server.rack",
+        "wanQuantity": 0,
+        "lanQuantity": 24,
+        "pingSupport": true
+    },
+    {
+        "type": "ISP",
+        "name": "Internet ISP",
+        "icon": "network",
+        "wanQuantity": 1,
+        "lanQuantity": 0,
+        "pingSupport": true
+    }
+]
