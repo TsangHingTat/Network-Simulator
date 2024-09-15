@@ -29,6 +29,7 @@ struct SymbolView: View {
                         .font(.footnote)
                 }
             }
+            .frame(minWidth: 190)
             .padding(10)
             .background(Color.gray.opacity(0.2))
             .cornerRadius(10)
@@ -38,7 +39,7 @@ struct SymbolView: View {
 
 struct SymbolView_Previews: PreviewProvider {
     static var previews: some View {
-        SymbolView(symbol: "star.fill", name: "Sample Device", mac: "00:1A:2B:3C:4D:5E")
+        SymbolView(symbol: "star.fill", name: "Device", mac: "00:1A:2B:3C:4D:5E")
             .previewLayout(.sizeThatFits)
             .padding()
     }

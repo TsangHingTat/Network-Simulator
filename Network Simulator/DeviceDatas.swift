@@ -16,9 +16,9 @@ class DeviceData: Identifiable, Codable {
     var wanQuantity: Int
     var lanQuantity: Int
     var pingSupport: Bool
-    var children: [DeviceData]? = [] 
+    var children: [DeviceData]
 
-    init(symbol: String, type: String, name: String, mac: String, wanQuantity: Int, lanQuantity: Int, pingSupport: Bool) {
+    init(symbol: String, type: String, name: String, mac: String, wanQuantity: Int, lanQuantity: Int, pingSupport: Bool, children: [DeviceData] = []) {
         self.symbol = symbol
         self.type = type
         self.name = name
@@ -26,6 +26,7 @@ class DeviceData: Identifiable, Codable {
         self.wanQuantity = wanQuantity
         self.lanQuantity = lanQuantity
         self.pingSupport = pingSupport
+        self.children = children
     }
 
     enum CodingKeys: String, CodingKey {
