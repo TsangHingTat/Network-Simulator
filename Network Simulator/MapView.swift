@@ -8,80 +8,38 @@
 import SwiftUI
 
 struct MapView: View {
-    @State var deviceDatas: [DeviceData] = []
-    @State var isShowingAddSheet: Bool = false
-    @State var selectedDeviceData: DeviceData? = nil
-    let deviceInfos: [DeviceInfo] = loadSymbolInfos()
+    @State var deviceData: DeviceData = DeviceData(
+        symbol: "network",
+        type: "ISP",
+        name: "互聯網服務供應商",
+        mac: "none",
+        wanQuantity: 1,
+        lanQuantity: 0,
+        pingSupport: true
+        )
 
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack {
-                    ForEach(deviceDatas) { data in
-                        DeviceView(
-                            selectedDeviceData: $selectedDeviceData,
-                            device: data,
-                            onDelete: deleteDevice
-                        )
-                    }
+                    DeviceView(
+                        device: $deviceData
+                    )
                 }
             }
             .navigationTitle("網路建構器")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: { isShowingAddSheet.toggle() }) {
-                        Label("添加", systemImage: "plus")
-                    }
-                }
-            }
-            .sheet(isPresented: $isShowingAddSheet) {
-                AddDeviceSheet(deviceInfos: deviceInfos) { type in
-                    if let newDeviceInfo = deviceInfos.first(where: { $0.type == type }) {
-                        let existingMACs = deviceDatas.map { $0.mac }
-                        let newMAC = generateMACAddress(existingMACs: existingMACs)
-                        let newDeviceData = DeviceData(
-                            symbol: newDeviceInfo.icon,
-                            type: newDeviceInfo.type,
-                            name: newDeviceInfo.name,
-                            mac: newMAC,
-                            wanQuantity: newDeviceInfo.wanQuantity,
-                            lanQuantity: newDeviceInfo.lanQuantity,
-                            pingSupport: newDeviceInfo.pingSupport
-                        )
-                        deviceDatas.append(newDeviceData)
-                    }
-                    isShowingAddSheet = false
-                }
-            }
-            .sheet(item: $selectedDeviceData) { data in
-                ScrollView {
-                    DeviceCardView(device: Binding(
-                        get: { data },
-                        set: { newValue in
-                            if let index = deviceDatas.firstIndex(where: { $0.id == data.id }) {
-                                deviceDatas[index] = newValue
-                            }
-                        }
-                    ))
-                    .padding(.horizontal, 10)
-                }
-//                .presentationDetents([.height(470), .fraction(1.0)])
-            }
+
         }
         .navigationViewStyle(.stack)
     }
 
-    private func deleteDevice(_ device: DeviceData) {
-        if let index = deviceDatas.firstIndex(where: { $0.id == device.id }) {
-            deviceDatas.remove(at: index)
-        }
-    }
+
 }
 
 
-#Preview {
-    MapView(deviceDatas: [
-        DeviceData(
+struct MapView_Previews: PreviewProvider {
+    static var previews: some View {
+        MapView(deviceData: DeviceData(
             symbol: "network",
             type: "ISP",
             name: "互聯網服務供應商",
@@ -207,6 +165,6 @@ struct MapView: View {
                     pingSupport: false
                 )
             ]
-        )
-    ])
+        ))
+    }
 }

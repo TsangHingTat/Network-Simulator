@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AddDeviceSheet: View {
-    let deviceInfos: [DeviceInfo]
+    let deviceInfos: [DeviceInfo] = loadSymbolInfos()
     var addDeviceAction: (String) -> Void
 
     var body: some View {
