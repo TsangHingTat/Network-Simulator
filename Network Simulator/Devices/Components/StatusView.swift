@@ -8,11 +8,24 @@
 import SwiftUI
 
 struct StatusView: View {
+    @Binding var deviceStatus: Bool
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            Text("設備狀態")
+            Spacer()
+            Image(systemName: "power")
+                .foregroundColor(deviceStatus ? .green : .red)
+        }
     }
 }
 
-#Preview {
-    StatusView()
+struct StatusView_Previews: PreviewProvider {
+    static var previews: some View {
+        StatusView(
+            deviceStatus: .constant(true)
+        )
+        .previewLayout(.sizeThatFits)
+        .padding()
+    }
 }

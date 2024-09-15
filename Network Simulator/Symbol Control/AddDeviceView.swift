@@ -1,5 +1,5 @@
 //
-//  AddSymbolView.swift
+//  AddDeviceView.swift
 //  Network Simulator
 //
 //  Created by HingTatTsang on 9/12/24.
@@ -7,27 +7,23 @@
 
 import SwiftUI
 
-// Sheet view for adding a new device
-struct AddSymbolSheet: View {
-    var addSymbolAction: (String) -> Void
+struct AddDeviceSheet: View {
     let deviceInfos: [DeviceInfo]
+    var addDeviceAction: (String) -> Void
 
     var body: some View {
         NavigationView {
             List {
                 ForEach(deviceInfos, id: \.type) { info in
-                    Button(action: { addSymbolAction(info.type) }) {
+                    Button(action: { addDeviceAction(info.type) }) {
                         Label(info.name, systemImage: info.icon)
                     }
                 }
             }
-            .navigationTitle("Add a device")
-            .navigationBarItems(trailing: Button("Close") {
-                // Close the sheet
-                addSymbolAction("") // Dummy action to dismiss
+            .navigationTitle("添加設備")
+            .navigationBarItems(trailing: Button("關閉") {
+                addDeviceAction("")
             })
         }
     }
 }
-
-

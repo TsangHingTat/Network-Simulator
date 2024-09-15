@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+struct NetworkV1 {
+    var dhcpEnabled: Bool = true
+    var ipAddress: String = ""
+    var subnetMask: String = ""
+    var showIPError: Bool = false
+    var showSubnetMaskError: Bool = false
+}

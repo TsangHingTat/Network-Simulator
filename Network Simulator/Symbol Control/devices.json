@@ -1,7 +1,7 @@
 [
     {
         "type": "web",
-        "name": "Web Server",
+        "name": "網頁伺服器",
         "icon": "server.rack",
         "wanQuantity": 1,
         "lanQuantity": 0,
@@ -9,7 +9,7 @@
     },
     {
         "type": "vpn",
-        "name": "VPN Server",
+        "name": "VPN 伺服器",
         "icon": "server.rack",
         "wanQuantity": 1,
         "lanQuantity": 1,
@@ -17,7 +17,7 @@
     },
     {
         "type": "dns",
-        "name": "DNS Server",
+        "name": "DNS 伺服器",
         "icon": "server.rack",
         "wanQuantity": 1,
         "lanQuantity": 1,
@@ -25,7 +25,7 @@
     },
     {
         "type": "firewall",
-        "name": "Firewall",
+        "name": "防火牆",
         "icon": "server.rack",
         "wanQuantity": 1,
         "lanQuantity": 1,
@@ -33,7 +33,7 @@
     },
     {
         "type": "computer",
-        "name": "Computer",
+        "name": "電腦",
         "icon": "desktopcomputer",
         "wanQuantity": 0,
         "lanQuantity": 1,
@@ -41,7 +41,7 @@
     },
     {
         "type": "tv",
-        "name": "TV",
+        "name": "電視",
         "icon": "tv",
         "wanQuantity": 0,
         "lanQuantity": 1,
@@ -49,15 +49,15 @@
     },
     {
         "type": "fan",
-        "name": "Smart Fan",
+        "name": "智能風扇",
         "icon": "fanblades",
         "wanQuantity": 0,
-        "lanQuantity": 0,
+        "lanQuantity": 1,
         "pingSupport": false
     },
     {
         "type": "router",
-        "name": "WiFi Router",
+        "name": "WiFi 路由器",
         "icon": "wifi.router",
         "wanQuantity": 1,
         "lanQuantity": 4,
@@ -65,7 +65,7 @@
     },
     {
         "type": "switch",
-        "name": "Network Switch",
+        "name": "網絡交換機",
         "icon": "server.rack",
         "wanQuantity": 0,
         "lanQuantity": 24,
@@ -73,7 +73,7 @@
     },
     {
         "type": "ISP",
-        "name": "Internet ISP",
+        "name": "互聯網服務供應商",
         "icon": "network",
         "wanQuantity": 1,
         "lanQuantity": 0,

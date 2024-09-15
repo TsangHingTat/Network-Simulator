@@ -8,11 +8,30 @@
 import SwiftUI
 
 struct DeviceCardCellView: View {
+    @State var title: String
+    @State var string: String
+    @State var color = Color.black
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading) {
+            HStack {
+                Text(title)
+                    .font(.callout)
+                
+                Spacer()
+                
+                Text(string)
+                    .font(.callout)
+                    .foregroundColor(color)
+            }
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(20)
     }
 }
 
 #Preview {
-    DeviceCardCellView()
+    DeviceCardCellView(title: "標題", string: "內容")
+        .padding()
 }

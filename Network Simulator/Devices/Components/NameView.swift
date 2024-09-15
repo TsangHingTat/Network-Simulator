@@ -8,11 +8,24 @@
 import SwiftUI
 
 struct NameView: View {
+    @Binding var deviceName: String
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading) {
+            Text("重新命名設備")
+            TextField("輸入設備名稱", text: $deviceName)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.bottom)
+        }
     }
 }
 
-#Preview {
-    NameView()
+struct NameView_Previews: PreviewProvider {
+    static var previews: some View {
+        NameView(
+            deviceName: .constant("設備名稱")
+        )
+        .previewLayout(.sizeThatFits)
+        .padding()
+    }
 }
