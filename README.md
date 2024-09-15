@@ -56,4 +56,4 @@
 * 我們的開發者團隊
 * Google Gemini Advance
 * OpenAI ChatGPT Plus
-* Apple Intelligence in XCode 18
+* Apple Intelligence in XCode 16
