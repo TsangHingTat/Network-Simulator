@@ -73,7 +73,7 @@
     },
     {
         "type": "ISP",
-        "name": "互聯網服務供應商",
+        "name": "互聯網",
         "icon": "network",
         "wanQuantity": 1,
         "lanQuantity": 0,

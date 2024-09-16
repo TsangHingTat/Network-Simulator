@@ -11,28 +11,43 @@ struct SymbolView: View {
     var symbol: String
     var name: String
     var mac: String
-
+    
+    var isChild = false
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Color.clear
-                    .frame(width: 50, height: 50)
-                    .overlay() {
-                        Text(Image(systemName: symbol))
-                            .font(.largeTitle)
-                            .foregroundColor(.blue)
-                    }
-                VStack(alignment: .leading) {
-                    Text(name)
-                        .font(.title3)
-                    Text(mac)
-                        .font(.footnote)
+                if isChild {
+                    Image(systemName: "arrow.turn.down.right")
+                        .resizable()
+                        .frame(width: 20, height: 20)
                 }
+                HStack {
+                    Color.clear
+                        .frame(width: 45, height: 45)
+                        .overlay() {
+                            Text(Image(systemName: symbol))
+                                .font(.system(size: 30))
+                                .foregroundColor(.blue)
+                        }
+                    VStack(alignment: .leading) {
+                        Text(name)
+                            .font(.title3)
+                        ZStack {
+                            Text(mac == "none" ? "No MAC Address   " : mac)
+                                .font(.footnote)
+                            Text(mac == "none" ? "00:00:00:00:00:00" : mac)
+                                .font(.footnote)
+                                .hidden()
+                        }
+                    }
+                }
+                .frame(minWidth: 190)
+                .padding(9)
+                .background(Color.gray.opacity(0.2))
+                .cornerRadius(10)
             }
-            .frame(minWidth: 190)
-            .padding(10)
-            .background(Color.gray.opacity(0.2))
-            .cornerRadius(10)
+            
         }
     }
 }

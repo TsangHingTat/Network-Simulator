@@ -13,7 +13,7 @@ struct ContentView: View {
         MapView(deviceData: DeviceData(
             symbol: "network",
             type: "ISP",
-            name: "互聯網服務供應商",
+            name: "互聯網",
             mac: "none",
             wanQuantity: 1,
             lanQuantity: 0,
