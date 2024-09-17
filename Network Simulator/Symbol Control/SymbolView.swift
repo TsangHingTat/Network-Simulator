@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct SymbolView: View {
-    var symbol: String
-    var name: String
-    var mac: String
+    @Binding var device: DeviceData
+    @Binding var mainPastData: DeviceData
+    @Binding var showMap: Bool
     
     var isChild = false
+    
+    @State var isShowingInfo = false
+    @State var isShowingAddSheet = false
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -26,36 +29,67 @@ struct SymbolView: View {
                     Color.clear
                         .frame(width: 45, height: 45)
                         .overlay() {
-                            Text(Image(systemName: symbol))
+                            Text(Image(systemName: device.symbol))
                                 .font(.system(size: 30))
                                 .foregroundColor(.blue)
                         }
                     VStack(alignment: .leading) {
-                        Text(name)
+                        Text(device.name)
                             .font(.title3)
                         ZStack {
-                            Text(mac == "none" ? "No MAC Address   " : mac)
+                            Text(device.mac == "none" ? "No MAC Address   " : device.mac)
                                 .font(.footnote)
-                            Text(mac == "none" ? "00:00:00:00:00:00" : mac)
+                            Text(device.mac == "none" ? "00:00:00:00:00:00" : device.mac)
                                 .font(.footnote)
                                 .hidden()
                         }
                     }
                 }
+                .onTapGesture {
+                    isShowingInfo.toggle()
+                }
                 .frame(minWidth: 190)
                 .padding(9)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(10)
+                .sheet(isPresented: $isShowingInfo) {
+                    ScrollView {
+                        DeviceCardView(device: $device, connectDevices: usedPortCount())
+                            .padding(.horizontal)
+                    }
+                        .presentationDetents([.height(470), .fraction(1.0)])
+                }
+                .sheet(isPresented: $isShowingAddSheet) {
+                    AddDeviceSheet(isShowingAddSheet: $isShowingAddSheet, device: $device, mainPastData: $mainPastData)
+                        .onDisappear() {
+                            showMap.toggle()
+                        }
+                }
+                if isSupportChild() {
+                    Text(Image(systemName: "plus.circle.fill"))
+                        .font(.system(size: 20))
+                        .foregroundColor(.green)
+                        .onTapGesture {
+                            isShowingAddSheet.toggle()
+                        }
+                }
             }
             
         }
     }
-}
-
-struct SymbolView_Previews: PreviewProvider {
-    static var previews: some View {
-        SymbolView(symbol: "star.fill", name: "Device", mac: "00:1A:2B:3C:4D:5E")
-            .previewLayout(.sizeThatFits)
-            .padding()
+    func isSupportChild() -> Bool {
+        let countNow = device.children.count
+        let supportCount = device.lanQuantity
+        if countNow >= supportCount {
+            return false
+        } else {
+            return true
+        }
+        
+    }
+    
+    func usedPortCount() -> Int {
+        return device.children.count
     }
 }
+

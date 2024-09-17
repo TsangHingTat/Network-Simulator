@@ -10,6 +10,8 @@ import SwiftUI
 struct DeviceCardView: View {
     @Binding var device: DeviceData
 
+    @State var connectDevices: Int
+
     var body: some View {
         Spacer()
             .frame(height: 10)
@@ -49,9 +51,9 @@ struct DeviceCardView: View {
         for i in 0..<device.wanQuantity {
             ports.append(Port(name: "Wan \(i)", isActive: i == 0))
         }
-
+        
         for i in 0..<device.lanQuantity {
-            ports.append(Port(name: "Lan \(i)", isActive: false))
+            ports.append(Port(name: "Lan \(i)", isActive: !((i + 1) > connectDevices)))
         }
 
         return ports
@@ -70,6 +72,6 @@ struct DeviceCardView: View {
                 lanQuantity: 4,
                 pingSupport: true
             )
-        )
+        ), connectDevices: 0
     )
 }
