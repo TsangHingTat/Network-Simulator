@@ -11,6 +11,7 @@ struct DeviceViewRecursive: View {
     @Binding var device: DeviceData
     @Binding var mainPastData: DeviceData
     @Binding var showMap: Bool
+    @Binding var ipaddress: [[String]]
     
     var indentLevel: Int
     var isChild: Bool
@@ -19,7 +20,7 @@ struct DeviceViewRecursive: View {
         VStack(alignment: .leading, spacing: 5) {
             HStack {
                 Spacer().frame(width: CGFloat(indentLevel * 50))
-                SymbolView(device: $device, mainPastData: $mainPastData, showMap: $showMap, isChild: isChild, onDelete: {
+                SymbolView(device: $device, mainPastData: $mainPastData, showMap: $showMap, ipaddress: $ipaddress, isChild: isChild, onDelete: {
                     if let parent = findParent(of: device, in: mainPastData) {
                         parent.children.removeAll { $0.id == device.id }
                     }
@@ -28,7 +29,7 @@ struct DeviceViewRecursive: View {
             }
             
             ForEach(device.children.indices, id: \.self) { index in
-                DeviceViewRecursive(device: $device.children[index], mainPastData: $mainPastData, showMap: $showMap, indentLevel: indentLevel + 1, isChild: true)
+                DeviceViewRecursive(device: $device.children[index], mainPastData: $mainPastData, showMap: $showMap, ipaddress: $ipaddress, indentLevel: indentLevel + 1, isChild: true)
             }
         }
     }
@@ -44,6 +45,7 @@ struct DeviceViewRecursive: View {
         }
         return nil
     }
+    
 }
 
 
@@ -61,6 +63,7 @@ struct DeviceViewRecursive_Previews: PreviewProvider {
             device: $mockDevice,
             mainPastData: $mockMainPastData,
             showMap: $showMap,
+            ipaddress: .constant([]),
             indentLevel: 0,
             isChild: false
         )

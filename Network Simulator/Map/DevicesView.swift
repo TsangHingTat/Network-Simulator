@@ -11,14 +11,24 @@ struct DeviceView: View {
     @Binding var device: DeviceData
     @Binding var mainPastData: DeviceData
     @Binding var showMap: Bool
+    @Binding var ipaddress: [[String]]
     
     var isChild = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            DeviceViewRecursive(device: $device, mainPastData: $mainPastData, showMap: $showMap, indentLevel: 0, isChild: isChild)
+            DeviceViewRecursive(device: $device,
+                                mainPastData: $mainPastData,
+                                showMap: $showMap,
+                                ipaddress: $ipaddress,
+                                indentLevel: 0,
+                                isChild: isChild
+            )
+
         }
     }
+    
+    
 }
 
 
@@ -34,7 +44,8 @@ struct DeviceView_Previews: PreviewProvider {
         DeviceView(
             device: $mockDevice,
             mainPastData: $mockMainPastData,
-            showMap: $showMap
+            showMap: $showMap,
+            ipaddress: .constant([])
         )
         .previewLayout(.sizeThatFits)
         .padding()

@@ -11,6 +11,7 @@ struct SymbolView: View {
     @Binding var device: DeviceData
     @Binding var mainPastData: DeviceData
     @Binding var showMap: Bool
+    @Binding var ipaddress: [[String]]
     
     var isChild = false
     var onDelete: (() -> Void)? 
@@ -27,29 +28,22 @@ struct SymbolView: View {
                         .frame(width: 20, height: 20)
                 }
                 HStack {
-                    Color.clear
-                        .frame(width: 45, height: 45)
-                        .overlay() {
-                            Text(Image(systemName: device.symbol))
-                                .font(.system(size: 30))
-                                .foregroundColor(.blue)
-                        }
+                    Image(systemName: device.symbol)
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                        .foregroundColor(.blue)
                     VStack(alignment: .leading) {
                         Text(device.name)
                             .font(.title3)
-                        ZStack {
-                            Text(device.mac == "none" ? "No MAC Address   " : device.mac)
-                                .font(.footnote)
-                            Text(device.mac == "none" ? "00:00:00:00:00:00" : device.mac)
-                                .font(.footnote)
-                                .hidden()
-                        }
+                        Text(device.mac == "none" ? "Internet" : getIpAddressFromList(device.mac))
+                            .font(.footnote)
                     }
+                    Spacer()
                 }
                 .onTapGesture {
                     isShowingInfo.toggle()
                 }
-                .frame(minWidth: 190)
+                .frame(width: 250)
                 .padding(9)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(10)
@@ -87,6 +81,15 @@ struct SymbolView: View {
         }
     }
     
+    func getIpAddressFromList(_ mac: String) -> String {
+        for i in ipaddress {
+            if i[0] == mac {
+                return i[1]
+            }
+        }
+        return "169.254.\(Int.random(in: 0...255)).\(Int.random(in: 0...255))"
+    }
+    
     func isSupportChild() -> Bool {
         let countNow = device.children.count
         let supportCount = device.lanQuantity
@@ -105,7 +108,7 @@ struct SymbolView: View {
 
 struct SymbolView_Previews: PreviewProvider {
     @State static var mockDevice = DeviceData(
-        symbol: "router",
+        symbol: "wifi.router",
         type: "Router",
         name: "Router",
         mac: "00:00:00:00:00:00",
@@ -133,9 +136,9 @@ struct SymbolView_Previews: PreviewProvider {
             device: $mockDevice,
             mainPastData: $mockMainPastData,
             showMap: $showMap,
+            ipaddress: .constant([]),
             isChild: false,
             onDelete: {
-                // Handle delete action here (e.g., print a message or update state)
                 print("Delete action triggered")
             }
         )
