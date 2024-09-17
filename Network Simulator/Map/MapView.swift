@@ -40,3 +40,42 @@ struct MapView: View {
 
 
 
+struct MapView_Previews: PreviewProvider {
+    @State static var mockDeviceData = DeviceData(
+        symbol: "router",
+        type: "Router",
+        name: "Router",
+        mac: "00:00:00:00:00:00",
+        wanQuantity: 1,
+        lanQuantity: 4,
+        pingSupport: true,
+        children: [
+            DeviceData(
+                symbol: "pc",
+                type: "PC",
+                name: "PC",
+                mac: "00:00:00:00:00:01",
+                wanQuantity: 0,
+                lanQuantity: 0,
+                pingSupport: true
+            ),
+            DeviceData(
+                symbol: "switch",
+                type: "Switch",
+                name: "Switch",
+                mac: "00:00:00:00:00:02",
+                wanQuantity: 0,
+                lanQuantity: 8,
+                pingSupport: false
+            )
+        ]
+    )
+    
+    @State static var showMap = true
+
+    static var previews: some View {
+        MapView(deviceData: mockDeviceData, showMap: showMap)
+            .previewLayout(.sizeThatFits)
+            .padding()
+    }
+}

@@ -13,9 +13,10 @@ struct SymbolView: View {
     @Binding var showMap: Bool
     
     var isChild = false
+    var onDelete: (() -> Void)? 
     
-    @State private var isShowingInfo = false
-    @State private var isShowingAddSheet = false
+    @State var isShowingInfo = false
+    @State var isShowingAddSheet = false
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -54,7 +55,8 @@ struct SymbolView: View {
                 .cornerRadius(10)
                 .contextMenu {
                     Button(role: .destructive) {
-                        deleteDevice()
+                        onDelete?()
+                        updateUI()
                     } label: {
                         Label("Delete", systemImage: "trash")
                     }
@@ -85,16 +87,6 @@ struct SymbolView: View {
         }
     }
     
-    private func deleteDevice() {
-        guard let parent = device.parent else {
-            return
-        }
-        if let index = parent.children.firstIndex(where: { $0.id == device.id }) {
-            parent.children.remove(at: index)
-        }
-        updateUI()
-    }
-    
     func isSupportChild() -> Bool {
         let countNow = device.children.count
         let supportCount = device.lanQuantity
@@ -107,5 +99,47 @@ struct SymbolView: View {
     
     func updateUI() -> Void {
         showMap.toggle()
+    }
+}
+
+
+struct SymbolView_Previews: PreviewProvider {
+    @State static var mockDevice = DeviceData(
+        symbol: "router",
+        type: "Router",
+        name: "Router",
+        mac: "00:00:00:00:00:00",
+        wanQuantity: 1,
+        lanQuantity: 4,
+        pingSupport: true,
+        children: [
+            DeviceData(
+                symbol: "pc",
+                type: "PC",
+                name: "PC",
+                mac: "00:00:00:00:00:01",
+                wanQuantity: 0,
+                lanQuantity: 0,
+                pingSupport: true
+            )
+        ]
+    )
+    
+    @State static var mockMainPastData = mockDevice
+    @State static var showMap = true
+
+    static var previews: some View {
+        SymbolView(
+            device: $mockDevice,
+            mainPastData: $mockMainPastData,
+            showMap: $showMap,
+            isChild: false,
+            onDelete: {
+                // Handle delete action here (e.g., print a message or update state)
+                print("Delete action triggered")
+            }
+        )
+        .previewLayout(.sizeThatFits)
+        .padding()
     }
 }

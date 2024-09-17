@@ -52,8 +52,19 @@ struct AddDeviceSheet: View {
                     }
                 }
             }
-            .navigationTitle("添加設備")
+            .navigationTitle("新增設備")
 
         }
+    }
+}
+
+
+struct AddDeviceSheet_Previews: PreviewProvider {
+    @State static var isShowingAddSheet = true
+    @State static var mockDevice = DeviceData(symbol: "router", type: "Router", name: "Router", mac: "00:00:00:00:00:00", wanQuantity: 1, lanQuantity: 4, pingSupport: true)
+    @State static var mockMainPastData = DeviceData(symbol: "router", type: "Router", name: "Router", mac: "00:00:00:00:00:00", wanQuantity: 1, lanQuantity: 4, pingSupport: true)
+
+    static var previews: some View {
+        AddDeviceSheet(isShowingAddSheet: $isShowingAddSheet, device: $mockDevice, mainPastData: $mockMainPastData)
     }
 }

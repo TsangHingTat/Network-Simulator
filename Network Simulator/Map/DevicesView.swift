@@ -22,32 +22,21 @@ struct DeviceView: View {
 }
 
 
-struct DeviceViewRecursive: View {
-    @Binding var device: DeviceData
-    @Binding var mainPastData: DeviceData
-    @Binding var showMap: Bool
+struct DeviceView_Previews: PreviewProvider {
+    @State static var mockDevice = DeviceData(symbol: "router", type: "Router", name: "Router", mac: "00:00:00:00:00:00", wanQuantity: 1, lanQuantity: 4, pingSupport: true, children: [
+        DeviceData(symbol: "pc", type: "PC", name: "PC", mac: "00:00:00:00:00:01", wanQuantity: 0, lanQuantity: 0, pingSupport: true)
+    ])
     
-    var indentLevel: Int
-    var isChild: Bool
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
-            HStack {
-                Spacer().frame(width: CGFloat(indentLevel * 50))
-                SymbolView(device: $device, mainPastData: $mainPastData, showMap: $showMap, isChild: isChild)
-                    .padding(.horizontal)
-            }
-            
-            ForEach(device.children.indices, id: \.self) { index in
-                DeviceViewRecursive(
-                    device: $device.children[index],
-                    mainPastData: $mainPastData,
-                    showMap: $showMap,
-                    indentLevel: indentLevel + 1,
-                    isChild: true
-                )
-                .environmentObject(device.children[index]) // Ensure child devices have access to parent if needed
-            }
-        }
+    @State static var mockMainPastData = DeviceData(symbol: "router", type: "Router", name: "Router", mac: "00:00:00:00:00:00", wanQuantity: 1, lanQuantity: 4, pingSupport: true)
+    @State static var showMap = true
+
+    static var previews: some View {
+        DeviceView(
+            device: $mockDevice,
+            mainPastData: $mockMainPastData,
+            showMap: $showMap
+        )
+        .previewLayout(.sizeThatFits)
+        .padding()
     }
 }
