@@ -17,7 +17,9 @@ struct MapView: View {
                 ScrollView {
                     if showMap {
                         DeviceView(
-                            device: $deviceData, mainPastData: $deviceData, showMap: $showMap
+                            device: $deviceData,
+                            mainPastData: $deviceData,
+                            showMap: $showMap
                         )
                     } else {
                         Text("Loading...")

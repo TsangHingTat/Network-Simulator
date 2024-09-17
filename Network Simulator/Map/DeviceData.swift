@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-
-import SwiftUI
 import Combine
 
 class DeviceData: Identifiable, Codable, ObservableObject, Equatable {
