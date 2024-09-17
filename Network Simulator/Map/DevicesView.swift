@@ -21,7 +21,7 @@ struct DeviceView: View {
     }
 }
 
-// Encapsulated recursive structure in a separate view
+
 struct DeviceViewRecursive: View {
     @Binding var device: DeviceData
     @Binding var mainPastData: DeviceData
@@ -39,7 +39,14 @@ struct DeviceViewRecursive: View {
             }
             
             ForEach(device.children.indices, id: \.self) { index in
-                DeviceViewRecursive(device: $device.children[index], mainPastData: $mainPastData, showMap: $showMap, indentLevel: indentLevel + 1, isChild: true)
+                DeviceViewRecursive(
+                    device: $device.children[index],
+                    mainPastData: $mainPastData,
+                    showMap: $showMap,
+                    indentLevel: indentLevel + 1,
+                    isChild: true
+                )
+                .environmentObject(device.children[index]) // Ensure child devices have access to parent if needed
             }
         }
     }

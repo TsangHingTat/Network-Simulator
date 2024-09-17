@@ -14,8 +14,8 @@ struct SymbolView: View {
     
     var isChild = false
     
-    @State var isShowingInfo = false
-    @State var isShowingAddSheet = false
+    @State private var isShowingInfo = false
+    @State private var isShowingAddSheet = false
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -52,17 +52,25 @@ struct SymbolView: View {
                 .padding(9)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(10)
+                .contextMenu {
+                    Button(role: .destructive) {
+                        deleteDevice()
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
+                }
                 .sheet(isPresented: $isShowingInfo) {
                     ScrollView {
                         DeviceCardView(device: $device, connectDevices: usedPortCount())
                             .padding(.horizontal)
+                            .padding(.bottom)
                     }
-                        .presentationDetents([.height(470), .fraction(1.0)])
+                    .presentationDetents([.height(470), .fraction(1.0)])
                 }
                 .sheet(isPresented: $isShowingAddSheet) {
                     AddDeviceSheet(isShowingAddSheet: $isShowingAddSheet, device: $device, mainPastData: $mainPastData)
                         .onDisappear() {
-                            showMap.toggle()
+                            updateUI()
                         }
                 }
                 if isSupportChild() {
@@ -74,22 +82,30 @@ struct SymbolView: View {
                         }
                 }
             }
-            
         }
     }
+    
+    private func deleteDevice() {
+        guard let parent = device.parent else {
+            return
+        }
+        if let index = parent.children.firstIndex(where: { $0.id == device.id }) {
+            parent.children.remove(at: index)
+        }
+        updateUI()
+    }
+    
     func isSupportChild() -> Bool {
         let countNow = device.children.count
         let supportCount = device.lanQuantity
-        if countNow >= supportCount {
-            return false
-        } else {
-            return true
-        }
-        
+        return countNow < supportCount
     }
     
     func usedPortCount() -> Int {
         return device.children.count
     }
+    
+    func updateUI() -> Void {
+        showMap.toggle()
+    }
 }
-

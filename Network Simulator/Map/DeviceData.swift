@@ -19,7 +19,9 @@ class DeviceData: Identifiable, Codable, ObservableObject, Equatable {
     @Published var pingSupport: Bool
     @Published var children: [DeviceData]
     
-    init(symbol: String, type: String, name: String, mac: String, wanQuantity: Int, lanQuantity: Int, pingSupport: Bool, children: [DeviceData] = []) {
+    weak var parent: DeviceData?
+    
+    init(symbol: String, type: String, name: String, mac: String, wanQuantity: Int, lanQuantity: Int, pingSupport: Bool, children: [DeviceData] = [], parent: DeviceData? = nil) {
         self.symbol = symbol
         self.type = type
         self.name = name
@@ -28,6 +30,7 @@ class DeviceData: Identifiable, Codable, ObservableObject, Equatable {
         self.lanQuantity = lanQuantity
         self.pingSupport = pingSupport
         self.children = children
+        self.parent = parent
     }
     
     enum CodingKeys: String, CodingKey {
@@ -95,10 +98,8 @@ class DeviceData: Identifiable, Codable, ObservableObject, Equatable {
 
 extension DeviceData {
     func printDescription(indentLevel: Int = 0) {
-        // Create an indentation string for formatting
         let indent = String(repeating: "  ", count: indentLevel)
         
-        // Print the current device's details
         print("\(indent)Device ID: \(id)")
         print("\(indent)Symbol: \(symbol)")
         print("\(indent)Type: \(type)")
@@ -108,7 +109,6 @@ extension DeviceData {
         print("\(indent)LAN Quantity: \(lanQuantity)")
         print("\(indent)Ping Support: \(pingSupport)")
         
-        // Recursively print children devices
         if !(children.count == 0) {
             print("\(indent)Children:")
             for child in children {
