@@ -35,24 +35,24 @@
         "type": "computer",
         "name": "電腦",
         "icon": "desktopcomputer",
-        "wanQuantity": 0,
-        "lanQuantity": 1,
+        "wanQuantity": 1,
+        "lanQuantity": 0,
         "pingSupport": true
     },
     {
         "type": "tv",
         "name": "電視",
         "icon": "tv",
-        "wanQuantity": 0,
-        "lanQuantity": 1,
+        "wanQuantity": 1,
+        "lanQuantity": 0,
         "pingSupport": false
     },
     {
         "type": "fan",
         "name": "智能風扇",
         "icon": "fanblades",
-        "wanQuantity": 0,
-        "lanQuantity": 1,
+        "wanQuantity": 1,
+        "lanQuantity": 0,
         "pingSupport": false
     },
     {
@@ -69,14 +69,6 @@
         "icon": "server.rack",
         "wanQuantity": 0,
         "lanQuantity": 24,
-        "pingSupport": true
-    },
-    {
-        "type": "ISP",
-        "name": "互聯網",
-        "icon": "network",
-        "wanQuantity": 1,
-        "lanQuantity": 0,
         "pingSupport": true
     }
 ]

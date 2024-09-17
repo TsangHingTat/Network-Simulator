@@ -10,14 +10,14 @@ import SwiftUI
 struct MapView: View {
     @State var deviceData: DeviceData
     @State var showMap = true
+    
     var body: some View {
         NavigationView {
             ScrollView {
-                ScrollView(.horizontal) {
+                ScrollView {
                     if showMap {
                         DeviceView(
-                            device: $deviceData,
-                            showMap: $showMap
+                            device: $deviceData, mainPastData: $deviceData, showMap: $showMap
                         )
                     } else {
                         Text("Loading...")
