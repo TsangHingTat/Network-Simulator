@@ -11,7 +11,7 @@ struct MapView: View {
     @State var deviceData: DeviceData
     @State var showMap = false
     @State var ipaddress: [[String]] = [] // MAC to IP mapping
-    
+
     var body: some View {
         NavigationView {
             ScrollView {
@@ -34,81 +34,68 @@ struct MapView: View {
         }
         .navigationViewStyle(.stack)
     }
-    
+
     /// Simulate DHCP-like IP assignment
     func dhcp() {
         print("DHCP Started")
         
-        // Get list of all routers
-        let routers = findRouters(in: deviceData)
-        
-        // Assign IP addresses to all devices connected to each router
-        for (index, router) in routers.enumerated() {
-            // Use index to assign subnet (192.168.index.x for each router)
-            let subnet = "192.168.\(index)"
-            let devices = findDevicesForRouter(router: router)
-            
-            // Assign IPs to devices
-            let assignedIPs = assignIPsToDevices(devices, subnet: subnet)
-            updateIPAddress(with: assignedIPs)
-        }
-    }
-    
-    /// Find all routers in the network
-    private func findRouters(in data: DeviceData) -> [DeviceData] {
-        return data.children.filter { $0.type == "router" }
-    }
-    
-    /// Find all devices that belong to the same subnet (children of the router)
-    private func findDevicesForRouter(router: DeviceData) -> [DeviceData] {
-        return router.children // Assuming direct children are connected to the router
+        // Assign IP addresses to all devices connected to the root router
+        assignIPsToDevices(deviceData, baseSubnet: "192.168", subnetLevel: 0)
     }
     
     /// Assign IP addresses to devices using the router's subnet range (DHCP-like logic)
-    private func assignIPsToDevices(_ devices: [DeviceData], subnet: String) -> [[String]] {
-        var tempIPList: [[String]] = []
+    private func assignIPsToDevices(_ device: DeviceData, baseSubnet: String, subnetLevel: Int) {
         var currentHostIP = 2 // Start IP allocation at .2 (router is .1)
         let subnetMask = "255.255.255.0" // Common subnet mask for /24 networks
         
-        func getNextAvailableIP() -> String {
-            let ip = "\(subnet).\(currentHostIP)"
+        func getNextAvailableIP(for level: Int) -> String {
+            let ip = "\(baseSubnet).\(level).\(currentHostIP)"
             currentHostIP += 1
             return ip
         }
-
+        
         // Helper function to assign IPs recursively
-        func assignIPsRecursively(_ devices: [DeviceData]) {
+        func assignIPsRecursively(_ devices: [DeviceData], baseSubnet: String, subnetLevel: Int) {
             for device in devices {
                 if device.type == "switch" {
                     // Assign IP to the switch itself
-                    let switchIP = getNextAvailableIP()
-                    tempIPList.append([device.mac, switchIP, subnetMask])
+                    let switchIP = getNextAvailableIP(for: subnetLevel)
+                    ipaddress.append([device.mac, switchIP, subnetMask])
                     
                     // Recursively assign IPs to devices connected to this switch
-                    assignIPsRecursively(device.children)
+                    assignIPsRecursively(device.children, baseSubnet: baseSubnet, subnetLevel: subnetLevel)
+                } else if device.type == "router" {
+                    // Subrouter logic: Assign a subnet for this subrouter
+                    let newSubnetLevel = subnetLevel + 1
+                    let newSubnet = "\(baseSubnet).\(newSubnetLevel)"
+                    
+                    // Assign IP to the subrouter itself
+                    let subrouterIP = getNextAvailableIP(for: newSubnetLevel)
+                    ipaddress.append([device.mac, subrouterIP, subnetMask])
+                    
+                    // Recursively assign IPs to devices connected to this subrouter
+                    assignIPsRecursively(device.children, baseSubnet: newSubnet, subnetLevel: newSubnetLevel)
                 } else {
                     // Assign IP to the non-switch device
                     var ip: String
                     repeat {
-                        ip = getNextAvailableIP()
+                        ip = getNextAvailableIP(for: subnetLevel)
                     } while ipaddress.contains(where: { $0[1] == ip }) // Ensure unique IP in subnet
                     
                     // Assign new IP to the device
-                    tempIPList.append([device.mac, ip, subnetMask])
+                    ipaddress.append([device.mac, ip, subnetMask])
                 }
             }
         }
-
+        
         // Assign IPs starting from router
-        let routerIP = "\(subnet).1"
-        tempIPList.append([deviceData.mac, routerIP, subnetMask]) // Assign IP to the router
-
+        let routerIP = "\(baseSubnet).\(subnetLevel).1"
+        ipaddress.append([device.mac, routerIP, subnetMask]) // Assign IP to the router
+        
         // Assign IPs to all devices connected to the router
-        assignIPsRecursively(devices)
-
-        return tempIPList
+        assignIPsRecursively(device.children, baseSubnet: baseSubnet, subnetLevel: subnetLevel)
     }
-    
+
     /// Updates the `ipaddress` array with new IPs, ensuring no duplicates
     private func updateIPAddress(with newIPs: [[String]]) {
         // Remove outdated entries for the same MAC addresses
@@ -135,31 +122,44 @@ struct MapView_Previews: PreviewProvider {
         pingSupport: true,
         children: [
             DeviceData(
-                symbol: "pc",
-                type: "pc",
-                name: "PC",
-                mac: "00:00:00:00:00:01",
-                wanQuantity: 0,
-                lanQuantity: 0,
-                pingSupport: true
-            ),
-            DeviceData(
                 symbol: "switch",
                 type: "switch",
-                name: "Switch",
-                mac: "00:00:00:00:00:02",
+                name: "Switch 1",
+                mac: "00:00:00:00:00:01",
                 wanQuantity: 0,
                 lanQuantity: 4,
                 pingSupport: false,
                 children: [
                     DeviceData(
-                        symbol: "pc",
-                        type: "pc",
-                        name: "PC 2",
-                        mac: "00:00:00:00:00:03",
-                        wanQuantity: 0,
-                        lanQuantity: 0,
-                        pingSupport: true
+                        symbol: "router",
+                        type: "router",
+                        name: "Subrouter 1",
+                        mac: "00:00:00:00:00:02",
+                        wanQuantity: 1,
+                        lanQuantity: 4,
+                        pingSupport: true,
+                        children: [
+                            DeviceData(
+                                symbol: "router",
+                                type: "router",
+                                name: "Sub-Subrouter 1",
+                                mac: "00:00:00:00:00:03",
+                                wanQuantity: 1,
+                                lanQuantity: 4,
+                                pingSupport: true,
+                                children: [
+                                    DeviceData(
+                                        symbol: "pc",
+                                        type: "pc",
+                                        name: "PC 1",
+                                        mac: "00:00:00:00:00:04",
+                                        wanQuantity: 0,
+                                        lanQuantity: 0,
+                                        pingSupport: true
+                                    )
+                                ]
+                            )
+                        ]
                     )
                 ]
             )
