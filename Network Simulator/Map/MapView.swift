@@ -10,158 +10,119 @@ import SwiftUI
 struct MapView: View {
     @State var deviceData: DeviceData
     @State var showMap = false
-    @State var ipaddress: [[String]] = []
+    @State var ipaddress: [[String]] = [] // MAC to IP mapping
     
     var body: some View {
         NavigationView {
             ScrollView {
-                ScrollView {
-                    if showMap {
-                        DeviceView(
-                            device: $deviceData,
-                            mainPastData: $deviceData,
-                            showMap: $showMap,
-                            ipaddress: $ipaddress
-                        )
-                    } else {
-                        Text("Loading...")
-                            .onAppear() {
-                                dhcp()
-                                showMap.toggle()
-                            }
-                    }
+                if showMap {
+                    DeviceView(
+                        device: $deviceData,
+                        mainPastData: $deviceData,
+                        showMap: $showMap,
+                        ipaddress: $ipaddress
+                    )
+                } else {
+                    Text("Loading...")
+                        .onAppear {
+                            dhcp() // Start DHCP logic on appearance
+                            showMap.toggle()
+                        }
                 }
             }
             .navigationTitle("網路建構器")
-
         }
         .navigationViewStyle(.stack)
     }
     
-    func dhcp() -> Void {
+    /// Simulate DHCP-like IP assignment
+    func dhcp() {
         print("DHCP Started")
         
-        // Find routers
-        var temp0: [String] = []
-        func findRouter(_ input: DeviceData) -> Void {
-            for i in input.children {
-                if i.type == "router" {
-                    temp0.append(i.mac)
-                }
-            }
+        // Get list of all routers
+        let routers = findRouters(in: deviceData)
+        
+        // Assign IP addresses to all devices connected to each router
+        for (index, router) in routers.enumerated() {
+            // Use index to assign subnet (192.168.index.x for each router)
+            let subnet = "192.168.\(index)"
+            let devices = findDevicesForRouter(router: router)
+            
+            // Assign IPs to devices
+            let assignedIPs = assignIPsToDevices(devices, subnet: subnet)
+            updateIPAddress(with: assignedIPs)
         }
-        print("Found \(temp0.count) router(s).")
-        findRouter(deviceData)
-        var foundedInt = 0
-        var temp1: [[String]] = []
-        func runDhcp() -> Void {
-            for i in deviceData.children {
-                for j in temp0 {
-                    if i.mac == j {
-                        // Each router
-                        let providedSubNetMask = "255.255.255.0"
-                        let ipAddress = "192.168.1.1"
-                        
-                        if let (firstIp, lastIp) = getIpRange(ipAddress: ipAddress, subnetMask: providedSubNetMask) {
-                            print("First usable IP: \(firstIp)")
-                            print("Last usable IP: \(lastIp)")
-                            temp1.append([i.mac, firstIp, providedSubNetMask])
-                            foundedInt += 1
-                        } else {
-                            print("Invalid IP address or subnet mask")
-                        }
-                        
-                        
-                    }
-                }
-            }
-        }
-        runDhcp()
-        
-        if temp1.count != 0 {
-            for i in 0...temp1.count-1 {
-                if ipaddress.count != 0 {
-                    for j in 0...ipaddress.count-1 {
-                        if temp1[i][0] == ipaddress[j][0] {
-                            ipaddress.remove(at: j)
-                        }
-                    }
-                }
-            }
-        }
-        
-        for i in temp1 {
-            ipaddress.append(i)
-            print("Add iP \(i)")
-        }
-        
-    }
-
-    func ipStringToOctets(_ ipString: String) -> [UInt8] {
-        return ipString.split(separator: ".").compactMap { UInt8($0) }
-    }
-
-    func octetsToIpString(_ octets: [UInt8]) -> String {
-        return octets.map { String($0) }.joined(separator: ".")
-    }
-
-    func bitwiseNot(_ value: UInt8) -> UInt8 {
-        return ~value
-    }
-
-    func getNetworkAddress(ipAddress: String, subnetMask: String) -> [UInt8]? {
-        let ipOctets = ipStringToOctets(ipAddress)
-        let subnetOctets = ipStringToOctets(subnetMask)
-        
-        guard ipOctets.count == 4, subnetOctets.count == 4 else {
-            return nil // Invalid input
-        }
-        
-        let networkOctets = zip(ipOctets, subnetOctets).map { $0 & $1 }
-        return networkOctets
-    }
-
-    func getBroadcastAddress(networkAddress: [UInt8], subnetMask: String) -> [UInt8]? {
-        let subnetOctets = ipStringToOctets(subnetMask)
-        
-        guard subnetOctets.count == 4 else {
-            return nil // Invalid subnet mask
-        }
-        
-        let invertedSubnetOctets = subnetOctets.map { bitwiseNot($0) }
-        let broadcastOctets = zip(networkAddress, invertedSubnetOctets).map { $0 | $1 }
-        
-        return broadcastOctets
-    }
-
-    func getIpRange(ipAddress: String, subnetMask: String) -> (String, String)? {
-        guard let networkAddress = getNetworkAddress(ipAddress: ipAddress, subnetMask: subnetMask),
-              let broadcastAddress = getBroadcastAddress(networkAddress: networkAddress, subnetMask: subnetMask) else {
-            return nil
-        }
-        
-        // First usable IP (network address + 1)
-        var firstIp = networkAddress
-        firstIp[3] += 1
-        
-        // Last usable IP (broadcast address - 1)
-        var lastIp = broadcastAddress
-        lastIp[3] -= 1
-        
-        // Convert to strings
-        let firstIpString = octetsToIpString(firstIp)
-        let lastIpString = octetsToIpString(lastIp)
-        
-        return (firstIpString, lastIpString)
     }
     
+    /// Find all routers in the network
+    private func findRouters(in data: DeviceData) -> [DeviceData] {
+        return data.children.filter { $0.type == "router" }
+    }
+    
+    /// Find all devices that belong to the same subnet (children of the router)
+    private func findDevicesForRouter(router: DeviceData) -> [DeviceData] {
+        return router.children // Assuming direct children are connected to the router
+    }
+    
+    /// Assign IP addresses to devices using the router's subnet range (DHCP-like logic)
+    private func assignIPsToDevices(_ devices: [DeviceData], subnet: String) -> [[String]] {
+        var tempIPList: [[String]] = []
+        var currentHostIP = 2 // Start IP allocation at .2 (router is .1)
+        let subnetMask = "255.255.255.0" // Common subnet mask for /24 networks
+        
+        func getNextAvailableIP() -> String {
+            let ip = "\(subnet).\(currentHostIP)"
+            currentHostIP += 1
+            return ip
+        }
+
+        // Helper function to assign IPs recursively
+        func assignIPsRecursively(_ devices: [DeviceData]) {
+            for device in devices {
+                if device.type == "switch" {
+                    // Assign IP to the switch itself
+                    let switchIP = getNextAvailableIP()
+                    tempIPList.append([device.mac, switchIP, subnetMask])
+                    
+                    // Recursively assign IPs to devices connected to this switch
+                    assignIPsRecursively(device.children)
+                } else {
+                    // Assign IP to the non-switch device
+                    var ip: String
+                    repeat {
+                        ip = getNextAvailableIP()
+                    } while ipaddress.contains(where: { $0[1] == ip }) // Ensure unique IP in subnet
+                    
+                    // Assign new IP to the device
+                    tempIPList.append([device.mac, ip, subnetMask])
+                }
+            }
+        }
+
+        // Assign IPs starting from router
+        let routerIP = "\(subnet).1"
+        tempIPList.append([deviceData.mac, routerIP, subnetMask]) // Assign IP to the router
+
+        // Assign IPs to all devices connected to the router
+        assignIPsRecursively(devices)
+
+        return tempIPList
+    }
+    
+    /// Updates the `ipaddress` array with new IPs, ensuring no duplicates
+    private func updateIPAddress(with newIPs: [[String]]) {
+        // Remove outdated entries for the same MAC addresses
+        for newIP in newIPs {
+            if let index = ipaddress.firstIndex(where: { $0[0] == newIP[0] }) {
+                ipaddress.remove(at: index)
+            }
+        }
+        
+        // Add the new IPs to the list
+        ipaddress.append(contentsOf: newIPs)
+        print("Updated IPs: \(ipaddress)")
+    }
 }
-
-
-
-
-
-
 
 struct MapView_Previews: PreviewProvider {
     @State static var mockDeviceData = DeviceData(
@@ -181,6 +142,26 @@ struct MapView_Previews: PreviewProvider {
                 wanQuantity: 0,
                 lanQuantity: 0,
                 pingSupport: true
+            ),
+            DeviceData(
+                symbol: "switch",
+                type: "switch",
+                name: "Switch",
+                mac: "00:00:00:00:00:02",
+                wanQuantity: 0,
+                lanQuantity: 4,
+                pingSupport: false,
+                children: [
+                    DeviceData(
+                        symbol: "pc",
+                        type: "pc",
+                        name: "PC 2",
+                        mac: "00:00:00:00:00:03",
+                        wanQuantity: 0,
+                        lanQuantity: 0,
+                        pingSupport: true
+                    )
+                ]
             )
         ]
     )
