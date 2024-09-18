@@ -40,6 +40,8 @@ struct MapView: View {
     
     func dhcp() -> Void {
         print("DHCP Started")
+        
+        // Find routers
         var temp0: [String] = []
         func findRouter(_ input: DeviceData) -> Void {
             for i in input.children {
@@ -48,6 +50,7 @@ struct MapView: View {
                 }
             }
         }
+        print("Found \(temp0.count) router(s).")
         findRouter(deviceData)
         var foundedInt = 0
         var temp1: [[String]] = []
@@ -55,8 +58,20 @@ struct MapView: View {
             for i in deviceData.children {
                 for j in temp0 {
                     if i.mac == j {
-                        temp1.append([i.mac, "192.168.\(foundedInt).1"])
-                        foundedInt += 1
+                        // Each router
+                        let providedSubNetMask = "255.255.255.0"
+                        let ipAddress = "192.168.1.1"
+                        
+                        if let (firstIp, lastIp) = getIpRange(ipAddress: ipAddress, subnetMask: providedSubNetMask) {
+                            print("First usable IP: \(firstIp)")
+                            print("Last usable IP: \(lastIp)")
+                            temp1.append([i.mac, firstIp, providedSubNetMask])
+                            foundedInt += 1
+                        } else {
+                            print("Invalid IP address or subnet mask")
+                        }
+                        
+                        
                     }
                 }
             }
@@ -82,7 +97,69 @@ struct MapView: View {
         
     }
 
+    func ipStringToOctets(_ ipString: String) -> [UInt8] {
+        return ipString.split(separator: ".").compactMap { UInt8($0) }
+    }
+
+    func octetsToIpString(_ octets: [UInt8]) -> String {
+        return octets.map { String($0) }.joined(separator: ".")
+    }
+
+    func bitwiseNot(_ value: UInt8) -> UInt8 {
+        return ~value
+    }
+
+    func getNetworkAddress(ipAddress: String, subnetMask: String) -> [UInt8]? {
+        let ipOctets = ipStringToOctets(ipAddress)
+        let subnetOctets = ipStringToOctets(subnetMask)
+        
+        guard ipOctets.count == 4, subnetOctets.count == 4 else {
+            return nil // Invalid input
+        }
+        
+        let networkOctets = zip(ipOctets, subnetOctets).map { $0 & $1 }
+        return networkOctets
+    }
+
+    func getBroadcastAddress(networkAddress: [UInt8], subnetMask: String) -> [UInt8]? {
+        let subnetOctets = ipStringToOctets(subnetMask)
+        
+        guard subnetOctets.count == 4 else {
+            return nil // Invalid subnet mask
+        }
+        
+        let invertedSubnetOctets = subnetOctets.map { bitwiseNot($0) }
+        let broadcastOctets = zip(networkAddress, invertedSubnetOctets).map { $0 | $1 }
+        
+        return broadcastOctets
+    }
+
+    func getIpRange(ipAddress: String, subnetMask: String) -> (String, String)? {
+        guard let networkAddress = getNetworkAddress(ipAddress: ipAddress, subnetMask: subnetMask),
+              let broadcastAddress = getBroadcastAddress(networkAddress: networkAddress, subnetMask: subnetMask) else {
+            return nil
+        }
+        
+        // First usable IP (network address + 1)
+        var firstIp = networkAddress
+        firstIp[3] += 1
+        
+        // Last usable IP (broadcast address - 1)
+        var lastIp = broadcastAddress
+        lastIp[3] -= 1
+        
+        // Convert to strings
+        let firstIpString = octetsToIpString(firstIp)
+        let lastIpString = octetsToIpString(lastIp)
+        
+        return (firstIpString, lastIpString)
+    }
+    
 }
+
+
+
+
 
 
 
