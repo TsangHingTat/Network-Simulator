@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DeviceCardView: View {
     @Binding var device: DeviceData
+    let connectionType: ConnectionType
 
     @State var connectDevices: Int
 
@@ -24,8 +25,8 @@ struct DeviceCardView: View {
 
         DeviceCardCellView(
             title: "連接狀態",
-            string: getInternetStatus(device.mac).description,
-            color: getColorFromInternetType(input: getInternetStatus(device.mac))
+            string: connectionType.description,
+            color: getColorFromInternetType(input: connectionType)
         )
         .shadow(radius: 1)
 
@@ -36,9 +37,7 @@ struct DeviceCardView: View {
             .shadow(radius: 1)
     }
 
-    func getInternetStatus(_ mac: String) -> ConnectionType {
-        return .internetConnection
-    }
+
 
     func createPorts() -> [Port] {
         var ports: [Port] = []
@@ -67,6 +66,7 @@ struct DeviceCardView: View {
                 lanQuantity: 4,
                 pingSupport: true
             )
-        ), connectDevices: 0
+        ), connectionType: .internetConnection,
+        connectDevices: 0
     )
 }

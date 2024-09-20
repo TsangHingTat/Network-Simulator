@@ -48,53 +48,54 @@ struct MapView: View {
     
     /// Assign IP addresses to devices using the router's subnet range (DHCP-like logic)
     private func assignIPsToDevices(_ device: DeviceData, baseSubnet: String, subnetLevel: Int) {
-        let subnetMask = "255.255.255.0" // Common subnet mask for /24 networks
-        var subnetIndex = subnetLevel // Keep track of the current subnet index
+        let subnetMask = "255.255.255.0" // 常用的子網掩碼，適用於 /24 網段
+        var subnetIndex = subnetLevel // 記錄當前的子網索引
 
-        // Helper function to generate IP for devices
+        // 幫助函數生成設備的下一個可用 IP
         func getNextAvailableIP(baseSubnet: String, hostIndex: Int) -> String {
-            return "\(baseSubnet).\(hostIndex)" // Generate a valid IP in the current subnet
+            return "\(baseSubnet).\(hostIndex)" // 在當前子網中生成有效的 IP 地址
         }
-        
-        // Recursive function to assign IPs, ensuring switches use the parent router's subnet
+
+        // 遞歸函數，用於分配 IP 地址，確保交換機使用父路由器的子網
         func assignIPsRecursively(_ devices: [DeviceData], baseSubnet: String) {
-            var currentHostIP = 2 // Start IP allocation at .2 for devices (excluding .1 for routers)
+            var currentHostIP = 2 // 設備的 IP 從 .2 開始分配（預留 .1 給路由器）
 
             for device in devices {
                 if device.type == "router" {
-                    // Routers create new subnets
+                    // 路由器會創建新的子網
                     let routerSubnet = "192.168.\(subnetIndex)"
-                    let routerIP = "\(routerSubnet).1" // Router gets the .1 IP in its own subnet
+                    let routerIP = "\(routerSubnet).1" // 路由器獲得自己子網中的 .1 IP 地址
                     ipaddress.append([device.mac, routerIP, subnetMask])
-                    subnetIndex += 1 // Increment subnet for the next router
-                    
-                    // Recursively assign IPs to devices connected to this router (new subnet)
+                    subnetIndex += 1 // 對於下一個路由器，遞增子網索引
+
+                    // 遞歸分配 IP 給連接到該路由器的設備（使用新的子網）
                     assignIPsRecursively(device.children, baseSubnet: routerSubnet)
                 } else if device.type == "switch" {
-                    // Switches do not create a new subnet, they use the parent's subnet
+                    // 交換機不創建新的子網，使用父路由器的子網
                     let switchIP = getNextAvailableIP(baseSubnet: baseSubnet, hostIndex: currentHostIP)
                     ipaddress.append([device.mac, switchIP, subnetMask])
-                    currentHostIP += 1 // Move to the next available IP
-                    
-                    // Assign IPs to devices connected to this switch (same subnet as parent router)
+                    currentHostIP += 1 // 移動到下一個可用 IP
+
+                    // 給連接到交換機的設備分配 IP（繼續使用父路由器的子網）
                     assignIPsRecursively(device.children, baseSubnet: baseSubnet)
                 } else {
-                    // Regular devices (e.g., PCs) get IPs in the parent's subnet
+                    // 常規設備（例如 PC）在父路由器的子網中獲得 IP
                     let deviceIP = getNextAvailableIP(baseSubnet: baseSubnet, hostIndex: currentHostIP)
                     ipaddress.append([device.mac, deviceIP, subnetMask])
                     currentHostIP += 1
                 }
             }
         }
-        
-        // Assign root router to the main subnet (192.168.0.x) and start recursive assignment
-        let rootRouterSubnet = "192.168.\(subnetLevel)" // Set the base subnet for the root router
+
+        // 根路由器使用主子網（192.168.0.x）並開始遞歸分配 IP
+        let rootRouterSubnet = "192.168.\(subnetLevel)" // 設置根路由器的基礎子網
         let rootRouterIP = "\(rootRouterSubnet).1"
-        ipaddress.append([device.mac, rootRouterIP, subnetMask]) // Assign IP to the root router
-        
-        // Start assigning IPs to devices connected to the root router, using the next available subnet
+        ipaddress.append([device.mac, rootRouterIP, subnetMask]) // 分配根路由器的 IP
+
+        // 開始給連接到根路由器的設備分配 IP 地址，使用下一個可用子網
         assignIPsRecursively(device.children, baseSubnet: rootRouterSubnet)
     }
+
 
 
 

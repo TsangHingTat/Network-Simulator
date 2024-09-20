@@ -35,7 +35,7 @@ struct SymbolView: View {
                     VStack(alignment: .leading) {
                         Text(device.name)
                             .font(.title3)
-                        Text(device.mac == "none" ? generateRandomIPAddress() : getIpAddressFromList(device.mac))
+                        Text(device.type == "switch" ? ("Switch") : (device.mac == "none" ? generateRandomIPAddress() : getIpAddressFromList(device.mac)))
                             .font(.footnote)
                     }
                     Spacer()
@@ -58,6 +58,7 @@ struct SymbolView: View {
                 .sheet(isPresented: $isShowingInfo) {
                     ScrollView {
                         DeviceCardView(device: $device,
+                                       connectionType: getInternetStatus(device.mac),
                                        connectDevices: usedPortCount()
                         )
                             .padding(.horizontal)
@@ -82,6 +83,15 @@ struct SymbolView: View {
                 }
             }
         }
+    }
+    
+    func getInternetStatus(_ mac: String) -> ConnectionType {
+        for i in ipaddress {
+            if i[0] == mac {
+                return .internetConnection
+            }
+        }
+        return .noConnection
     }
     
     func getIpAddressFromList(_ mac: String) -> String {
