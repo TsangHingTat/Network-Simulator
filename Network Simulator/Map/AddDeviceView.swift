@@ -11,9 +11,10 @@ struct AddDeviceSheet: View {
     @Binding var isShowingAddSheet: Bool
     @Binding var device: DeviceData
     @Binding var mainPastData: DeviceData
+    @Binding var showMap: Bool
     
     let deviceInfos: [DeviceInfo] = loadSymbolInfos()
-
+    
     var body: some View {
         NavigationView {
             List {
@@ -47,13 +48,17 @@ struct AddDeviceSheet: View {
                         device.children.append(newDeviceData)
                         mainPastData.printDescription()
                         isShowingAddSheet = false
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            showMap.toggle()
+                        }
+                        
                     }) {
                         Label(info.name, systemImage: info.icon)
                     }
                 }
             }
             .navigationTitle("新增設備")
-
+            
         }
     }
 }
@@ -63,8 +68,8 @@ struct AddDeviceSheet_Previews: PreviewProvider {
     @State static var isShowingAddSheet = true
     @State static var mockDevice = DeviceData(symbol: "router", type: "Router", name: "Router", mac: "00:00:00:00:00:00", wanQuantity: 1, lanQuantity: 4, pingSupport: true)
     @State static var mockMainPastData = DeviceData(symbol: "router", type: "Router", name: "Router", mac: "00:00:00:00:00:00", wanQuantity: 1, lanQuantity: 4, pingSupport: true)
-
+    
     static var previews: some View {
-        AddDeviceSheet(isShowingAddSheet: $isShowingAddSheet, device: $mockDevice, mainPastData: $mockMainPastData)
+        AddDeviceSheet(isShowingAddSheet: $isShowingAddSheet, device: $mockDevice, mainPastData: $mockMainPastData, showMap: .constant(false))
     }
 }

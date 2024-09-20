@@ -12,22 +12,25 @@ struct MapView: View {
     @State var showMap = false
     @State var ipaddress: [[String]] = [] // MAC to IP mapping
 
+    
     var body: some View {
         NavigationView {
             ScrollView {
-                if showMap {
-                    DeviceView(
-                        device: $deviceData,
-                        mainPastData: $deviceData,
-                        showMap: $showMap,
-                        ipaddress: $ipaddress
-                    )
-                } else {
-                    Text("Loading...")
-                        .onAppear {
-                            dhcp() // Start DHCP logic on appearance
-                            showMap.toggle()
-                        }
+                ScrollView(.horizontal, showsIndicators: false) {
+                    if showMap {
+                        DeviceView(
+                            device: $deviceData,
+                            mainPastData: $deviceData,
+                            showMap: $showMap,
+                            ipaddress: $ipaddress
+                        )
+                    } else {
+                        Text("Loading...")
+                            .onAppear {
+                                dhcp() // Start DHCP logic on appearance
+                                showMap.toggle()
+                            }
+                    }
                 }
             }
             .navigationTitle("網路建構器")
@@ -39,62 +42,61 @@ struct MapView: View {
     func dhcp() {
         print("DHCP Started")
         
-        // Assign IP addresses to all devices connected to the root router
+        // Assign IP addresses starting from the root router
         assignIPsToDevices(deviceData, baseSubnet: "192.168", subnetLevel: 0)
     }
     
     /// Assign IP addresses to devices using the router's subnet range (DHCP-like logic)
     private func assignIPsToDevices(_ device: DeviceData, baseSubnet: String, subnetLevel: Int) {
-        var currentHostIP = 2 // Start IP allocation at .2 (router is .1)
         let subnetMask = "255.255.255.0" // Common subnet mask for /24 networks
-        
-        func getNextAvailableIP(for level: Int) -> String {
-            let ip = "\(baseSubnet).\(level).\(currentHostIP)"
-            currentHostIP += 1
-            return ip
+        var subnetIndex = subnetLevel // Keep track of the current subnet index
+
+        // Helper function to generate IP for devices
+        func getNextAvailableIP(baseSubnet: String, hostIndex: Int) -> String {
+            return "\(baseSubnet).\(hostIndex)" // Generate a valid IP in the current subnet
         }
         
-        // Helper function to assign IPs recursively
-        func assignIPsRecursively(_ devices: [DeviceData], baseSubnet: String, subnetLevel: Int) {
+        // Recursive function to assign IPs, ensuring switches use the parent router's subnet
+        func assignIPsRecursively(_ devices: [DeviceData], baseSubnet: String) {
+            var currentHostIP = 2 // Start IP allocation at .2 for devices (excluding .1 for routers)
+
             for device in devices {
-                if device.type == "switch" {
-                    // Assign IP to the switch itself
-                    let switchIP = getNextAvailableIP(for: subnetLevel)
+                if device.type == "router" {
+                    // Routers create new subnets
+                    let routerSubnet = "192.168.\(subnetIndex)"
+                    let routerIP = "\(routerSubnet).1" // Router gets the .1 IP in its own subnet
+                    ipaddress.append([device.mac, routerIP, subnetMask])
+                    subnetIndex += 1 // Increment subnet for the next router
+                    
+                    // Recursively assign IPs to devices connected to this router (new subnet)
+                    assignIPsRecursively(device.children, baseSubnet: routerSubnet)
+                } else if device.type == "switch" {
+                    // Switches do not create a new subnet, they use the parent's subnet
+                    let switchIP = getNextAvailableIP(baseSubnet: baseSubnet, hostIndex: currentHostIP)
                     ipaddress.append([device.mac, switchIP, subnetMask])
+                    currentHostIP += 1 // Move to the next available IP
                     
-                    // Recursively assign IPs to devices connected to this switch
-                    assignIPsRecursively(device.children, baseSubnet: baseSubnet, subnetLevel: subnetLevel)
-                } else if device.type == "router" {
-                    // Subrouter logic: Assign a subnet for this subrouter
-                    let newSubnetLevel = subnetLevel + 1
-                    let newSubnet = "\(baseSubnet).\(newSubnetLevel)"
-                    
-                    // Assign IP to the subrouter itself
-                    let subrouterIP = getNextAvailableIP(for: newSubnetLevel)
-                    ipaddress.append([device.mac, subrouterIP, subnetMask])
-                    
-                    // Recursively assign IPs to devices connected to this subrouter
-                    assignIPsRecursively(device.children, baseSubnet: newSubnet, subnetLevel: newSubnetLevel)
+                    // Assign IPs to devices connected to this switch (same subnet as parent router)
+                    assignIPsRecursively(device.children, baseSubnet: baseSubnet)
                 } else {
-                    // Assign IP to the non-switch device
-                    var ip: String
-                    repeat {
-                        ip = getNextAvailableIP(for: subnetLevel)
-                    } while ipaddress.contains(where: { $0[1] == ip }) // Ensure unique IP in subnet
-                    
-                    // Assign new IP to the device
-                    ipaddress.append([device.mac, ip, subnetMask])
+                    // Regular devices (e.g., PCs) get IPs in the parent's subnet
+                    let deviceIP = getNextAvailableIP(baseSubnet: baseSubnet, hostIndex: currentHostIP)
+                    ipaddress.append([device.mac, deviceIP, subnetMask])
+                    currentHostIP += 1
                 }
             }
         }
         
-        // Assign IPs starting from router
-        let routerIP = "\(baseSubnet).\(subnetLevel).1"
-        ipaddress.append([device.mac, routerIP, subnetMask]) // Assign IP to the router
+        // Assign root router to the main subnet (192.168.0.x) and start recursive assignment
+        let rootRouterSubnet = "192.168.\(subnetLevel)" // Set the base subnet for the root router
+        let rootRouterIP = "\(rootRouterSubnet).1"
+        ipaddress.append([device.mac, rootRouterIP, subnetMask]) // Assign IP to the root router
         
-        // Assign IPs to all devices connected to the router
-        assignIPsRecursively(device.children, baseSubnet: baseSubnet, subnetLevel: subnetLevel)
+        // Start assigning IPs to devices connected to the root router, using the next available subnet
+        assignIPsRecursively(device.children, baseSubnet: rootRouterSubnet)
     }
+
+
 
     /// Updates the `ipaddress` array with new IPs, ensuring no duplicates
     private func updateIPAddress(with newIPs: [[String]]) {
@@ -171,6 +173,5 @@ struct MapView_Previews: PreviewProvider {
     static var previews: some View {
         MapView(deviceData: mockDeviceData, showMap: showMap)
             .previewLayout(.sizeThatFits)
-            .padding()
     }
 }

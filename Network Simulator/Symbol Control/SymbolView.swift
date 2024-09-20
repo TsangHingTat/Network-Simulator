@@ -35,13 +35,10 @@ struct SymbolView: View {
                     VStack(alignment: .leading) {
                         Text(device.name)
                             .font(.title3)
-                        Text(device.mac == "none" ? "Internet" : getIpAddressFromList(device.mac))
+                        Text(device.mac == "none" ? generateRandomIPAddress() : getIpAddressFromList(device.mac))
                             .font(.footnote)
                     }
                     Spacer()
-                }
-                .onTapGesture {
-                    isShowingInfo.toggle()
                 }
                 .frame(width: 250)
                 .padding(9)
@@ -55,19 +52,25 @@ struct SymbolView: View {
                         Label("Delete", systemImage: "trash")
                     }
                 }
+                .onTapGesture {
+                    isShowingInfo.toggle()
+                }
                 .sheet(isPresented: $isShowingInfo) {
                     ScrollView {
-                        DeviceCardView(device: $device, connectDevices: usedPortCount())
+                        DeviceCardView(device: $device,
+                                       connectDevices: usedPortCount()
+                        )
                             .padding(.horizontal)
                             .padding(.bottom)
                     }
-                    .presentationDetents([.height(470), .fraction(1.0)])
+                    .presentationDetents([.height(470) ])
                 }
                 .sheet(isPresented: $isShowingAddSheet) {
-                    AddDeviceSheet(isShowingAddSheet: $isShowingAddSheet, device: $device, mainPastData: $mainPastData)
-                        .onDisappear() {
-                            updateUI()
-                        }
+                    AddDeviceSheet(isShowingAddSheet: $isShowingAddSheet,
+                                   device: $device,
+                                   mainPastData: $mainPastData,
+                                   showMap: $showMap
+                    )
                 }
                 if isSupportChild() {
                     Text(Image(systemName: "plus.circle.fill"))
@@ -87,7 +90,8 @@ struct SymbolView: View {
                 return i[1]
             }
         }
-        return "169.254.\(Int.random(in: 0...255)).\(Int.random(in: 0...255))"
+//        return "169.254.\(Int.random(in: 0...255)).\(Int.random(in: 0...255))"
+        return "Self-Assigned IP"
     }
     
     func isSupportChild() -> Bool {

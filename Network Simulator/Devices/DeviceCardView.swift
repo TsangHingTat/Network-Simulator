@@ -19,7 +19,7 @@ struct DeviceCardView: View {
         DeviceCardStatusView(
             deviceName: $device.name,
             symbol: $device.symbol,
-            deviceStatus: .constant(false)
+            deviceStatus: .constant(true)
         )
 
         DeviceCardCellView(
@@ -32,12 +32,7 @@ struct DeviceCardView: View {
         RouterPortsView(ports: createPorts())
             .shadow(radius: 1)
 
-        if device.pingSupport {
-            PingView(deviceMac: device.mac)
-                .shadow(radius: 1)
-        }
-
-        DeviceCardCellView(title: "設備 MAC 地址", string: device.mac)
+        DeviceCardCellView(title: "設備 MAC 地址", string: device.mac, color: isDarkMode() ? Color.white : Color.black)
             .shadow(radius: 1)
     }
 

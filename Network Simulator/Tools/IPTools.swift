@@ -28,9 +28,6 @@ func isValidSubnetMask(_ mask: String) -> Bool {
     return validMasks.contains(mask)
 }
 
-func pingable(deviceIp: String, pingIp: String) -> (Bool, Int) {
-    return (true, 3)
-}
 
 func generateMACAddress(existingMACs: [String]) -> String {
     let characters = "0123456789ABCDEF"
@@ -49,4 +46,13 @@ func generateMACAddress(existingMACs: [String]) -> String {
     } while existingMACs.contains(macAddress)
 
     return macAddress
+}
+
+func generateRandomIPAddress() -> String {
+    let octet1 = Int(arc4random_uniform(256))
+    let octet2 = Int(arc4random_uniform(256))
+    let octet3 = Int(arc4random_uniform(256))
+    let octet4 = Int(arc4random_uniform(256))
+    
+    return "\(octet1).\(octet2).\(octet3).\(octet4)"
 }

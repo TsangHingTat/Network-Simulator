@@ -12,17 +12,25 @@ struct ContentView: View {
         MapView(deviceData: DeviceData(
             symbol: "network",
             type: "ISP",
-            name: "互聯網",
+            name: "數據機",
             mac: "none",
             wanQuantity: 0,
-            lanQuantity: 1,
+            lanQuantity: 4,
             pingSupport: true
         ))
-
+        
     }
     
 }
 
+func isDarkMode() -> Bool {
+    // Get the current window scene and its color scheme
+    guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+        return false
+    }
+    
+    return windowScene.windows.first?.traitCollection.userInterfaceStyle == .dark
+}
 
 #Preview {
     ContentView()

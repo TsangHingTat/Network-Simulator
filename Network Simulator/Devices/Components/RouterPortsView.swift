@@ -24,7 +24,7 @@ struct RouterPortsView: View {
             }
         }
         .padding()
-        .background(Color.white)
+        .background(isDarkMode() ? Color.black : Color.white)
         .cornerRadius(20)
     }
 }

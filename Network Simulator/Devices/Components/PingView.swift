@@ -42,7 +42,7 @@ struct PingView: View {
             }
         }
         .padding()
-        .background(Color.white)
+        .background(isDarkMode() ? Color.black : Color.white)
         .cornerRadius(20)
     }
 
@@ -64,6 +64,11 @@ struct PingView: View {
             }
         }
     }
+    
+    func pingable(deviceIp: String, pingIp: String) -> (Bool, Int) {
+        return (true, 3)
+    }
+
 }
 
 
