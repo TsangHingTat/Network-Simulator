@@ -48,55 +48,57 @@ struct MapView: View {
     
     /// Assign IP addresses to devices using the router's subnet range (DHCP-like logic)
     private func assignIPsToDevices(_ device: DeviceData, baseSubnet: String, subnetLevel: Int) {
-        let subnetMask = "255.255.255.0" // 常用的子網掩碼，適用於 /24 網段
-        var subnetIndex = subnetLevel // 記錄當前的子網索引
+        let subnetMask = "255.255.255.0" // Commonly used subnet mask for /24 networks
+        var subnetIndex = subnetLevel // Tracks the current subnet index
 
-        // 幫助函數生成設備的下一個可用 IP
+        // Helper function to generate the next available IP for a device
         func getNextAvailableIP(baseSubnet: String, hostIndex: Int) -> String {
-            return "\(baseSubnet).\(hostIndex)" // 在當前子網中生成有效的 IP 地址
+            return "\(baseSubnet).\(hostIndex)" // Generates a valid IP address in the current subnet
         }
 
-        // 遞歸函數，用於分配 IP 地址，確保交換機使用父路由器的子網
-        func assignIPsRecursively(_ devices: [DeviceData], baseSubnet: String) {
-            var currentHostIP = 2 // 設備的 IP 從 .2 開始分配（預留 .1 給路由器）
+        // Recursive function to assign IP addresses based on device type
+        func assignIPsRecursively(_ devices: [DeviceData], baseSubnet: String, parentIPIndex: inout Int) {
+            var currentHostIP = parentIPIndex // Start assigning IPs to devices from this point
 
             for device in devices {
                 if device.type == "router" {
-                    // 路由器會創建新的子網
+                    // Routers create new subnets
                     let routerSubnet = "192.168.\(subnetIndex)"
-                    let routerIP = "\(routerSubnet).1" // 路由器獲得自己子網中的 .1 IP 地址
+                    let routerIP = "\(routerSubnet).1" // Router gets .1 in its own subnet
                     ipaddress.append([device.mac, routerIP, subnetMask])
-                    subnetIndex += 1 // 對於下一個路由器，遞增子網索引
+                    subnetIndex += 1 // Increment subnet index for the next router
 
-                    // 遞歸分配 IP 給連接到該路由器的設備（使用新的子網）
-                    assignIPsRecursively(device.children, baseSubnet: routerSubnet)
+                    // Recursively assign IPs to devices connected to the router using its new subnet
+                    var newRouterHostIP = 2 // Reset for the new router subnet
+                    assignIPsRecursively(device.children, baseSubnet: routerSubnet, parentIPIndex: &newRouterHostIP)
                 } else if device.type == "switch" {
-                    // 交換機不創建新的子網，使用父路由器的子網
+                    // Switches do not create a new subnet, they use the parent's subnet
                     let switchIP = getNextAvailableIP(baseSubnet: baseSubnet, hostIndex: currentHostIP)
                     ipaddress.append([device.mac, switchIP, subnetMask])
-                    currentHostIP += 1 // 移動到下一個可用 IP
+                    currentHostIP += 1 // Move to the next available IP
 
-                    // 給連接到交換機的設備分配 IP（繼續使用父路由器的子網）
-                    assignIPsRecursively(device.children, baseSubnet: baseSubnet)
+                    // Recursively assign IPs to devices connected to the switch, using the same subnet as the parent router
+                    assignIPsRecursively(device.children, baseSubnet: baseSubnet, parentIPIndex: &currentHostIP)
                 } else {
-                    // 常規設備（例如 PC）在父路由器的子網中獲得 IP
+                    // Regular devices (e.g., PCs) get an IP in the parent's subnet
                     let deviceIP = getNextAvailableIP(baseSubnet: baseSubnet, hostIndex: currentHostIP)
                     ipaddress.append([device.mac, deviceIP, subnetMask])
                     currentHostIP += 1
                 }
             }
+
+            // Update parentIPIndex to reflect the next available IP for the parent subnet
+            parentIPIndex = currentHostIP
         }
 
-        // 根路由器使用主子網（192.168.0.x）並開始遞歸分配 IP
-        let rootRouterSubnet = "192.168.\(subnetLevel)" // 設置根路由器的基礎子網
+        // Start the recursive assignment from the root router using the base subnet
+        let rootRouterSubnet = "192.168.\(subnetLevel)" // Define the base subnet for the root router
         let rootRouterIP = "\(rootRouterSubnet).1"
-        ipaddress.append([device.mac, rootRouterIP, subnetMask]) // 分配根路由器的 IP
+        ipaddress.append([device.mac, rootRouterIP, subnetMask]) // Assign IP to the root router
 
-        // 開始給連接到根路由器的設備分配 IP 地址，使用下一個可用子網
-        assignIPsRecursively(device.children, baseSubnet: rootRouterSubnet)
+        var parentIPIndex = 2 // IPs for devices start from .2
+        assignIPsRecursively(device.children, baseSubnet: rootRouterSubnet, parentIPIndex: &parentIPIndex)
     }
-
-
 
 
     /// Updates the `ipaddress` array with new IPs, ensuring no duplicates
