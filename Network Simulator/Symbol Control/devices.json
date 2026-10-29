@@ -1,0 +1,74 @@
+[
+    {
+        "type": "web",
+        "name": "網頁伺服器",
+        "icon": "server.rack",
+        "wanQuantity": 1,
+        "lanQuantity": 0,
+        "pingSupport": true
+    },
+    {
+        "type": "vpn",
+        "name": "VPN 伺服器",
+        "icon": "server.rack",
+        "wanQuantity": 1,
+        "lanQuantity": 1,
+        "pingSupport": true
+    },
+    {
+        "type": "dns",
+        "name": "DNS 伺服器",
+        "icon": "server.rack",
+        "wanQuantity": 1,
+        "lanQuantity": 1,
+        "pingSupport": true
+    },
+    {
+        "type": "firewall",
+        "name": "防火牆",
+        "icon": "server.rack",
+        "wanQuantity": 1,
+        "lanQuantity": 1,
+        "pingSupport": false
+    },
+    {
+        "type": "computer",
+        "name": "電腦",
+        "icon": "desktopcomputer",
+        "wanQuantity": 1,
+        "lanQuantity": 0,
+        "pingSupport": true
+    },
+    {
+        "type": "tv",
+        "name": "電視",
+        "icon": "tv",
+        "wanQuantity": 1,
+        "lanQuantity": 0,
+        "pingSupport": false
+    },
+    {
+        "type": "fan",
+        "name": "智能風扇",
+        "icon": "fanblades",
+        "wanQuantity": 1,
+        "lanQuantity": 0,
+        "pingSupport": false
+    },
+    {
+        "type": "router",
+        "name": "WiFi 路由器",
+        "icon": "wifi.router",
+        "wanQuantity": 1,
+        "lanQuantity": 4,
+        "pingSupport": true
+    },
+    {
+        "type": "switch",
+        "name": "網絡交換機",
+        "icon": "server.rack",
+        "wanQuantity": 0,
+        "lanQuantity": 24,
+        "pingSupport": true
+    }
+]

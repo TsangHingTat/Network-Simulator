@@ -1,0 +1,497 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		796330CB3093590900C197DC /* DeviceCardCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330AA3093590900C197DC /* DeviceCardCellView.swift */; };
+		796330CC3093590900C197DC /* DeviceCardStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330AB3093590900C197DC /* DeviceCardStatusView.swift */; };
+		796330CD3093590900C197DC /* DHCPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330AC3093590900C197DC /* DHCPView.swift */; };
+		796330CE3093590900C197DC /* NameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330AD3093590900C197DC /* NameView.swift */; };
+		796330CF3093590900C197DC /* PingResultSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330AE3093590900C197DC /* PingResultSheet.swift */; };
+		796330D03093590900C197DC /* PingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330AF3093590900C197DC /* PingView.swift */; };
+		796330D13093590900C197DC /* RJ45PortIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330B03093590900C197DC /* RJ45PortIcon.swift */; };
+		796330D23093590900C197DC /* RouterPortsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330B13093590900C197DC /* RouterPortsView.swift */; };
+		796330D33093590900C197DC /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330B23093590900C197DC /* StatusView.swift */; };
+		796330D43093590900C197DC /* DeviceCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330B43093590900C197DC /* DeviceCardView.swift */; };
+		796330D53093590900C197DC /* AddDeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330B63093590900C197DC /* AddDeviceView.swift */; };
+		796330D63093590900C197DC /* DeviceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330B73093590900C197DC /* DeviceData.swift */; };
+		796330D73093590900C197DC /* DevicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330B83093590900C197DC /* DevicesView.swift */; };
+		796330D83093590900C197DC /* DeviceViewRecursive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330B93093590900C197DC /* DeviceViewRecursive.swift */; };
+		796330D93093590900C197DC /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330BA3093590900C197DC /* MapView.swift */; };
+		796330DA3093590900C197DC /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330BE3093590900C197DC /* DeviceInfo.swift */; };
+		796330DB3093590900C197DC /* SymbolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330C03093590900C197DC /* SymbolView.swift */; };
+		796330DC3093590900C197DC /* ConnectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330C23093590900C197DC /* ConnectionType.swift */; };
+		796330DD3093590900C197DC /* IPTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330C33093590900C197DC /* IPTools.swift */; };
+		796330DE3093590900C197DC /* NetworkV4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330C43093590900C197DC /* NetworkV4.swift */; };
+		796330DF3093590900C197DC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330C73093590900C197DC /* ContentView.swift */; };
+		796330E03093590900C197DC /* Network_SimulatorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796330C93093590900C197DC /* Network_SimulatorApp.swift */; };
+		796330E13093590900C197DC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 796330BC3093590900C197DC /* Preview Assets.xcassets */; };
+		796330E23093590900C197DC /* devices.json in Resources */ = {isa = PBXBuildFile; fileRef = 796330BF3093590900C197DC /* devices.json */; };
+		796330E33093590900C197DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 796330C63093590900C197DC /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		796330AA3093590900C197DC /* DeviceCardCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCardCellView.swift; sourceTree = "<group>"; };
+		796330AB3093590900C197DC /* DeviceCardStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCardStatusView.swift; sourceTree = "<group>"; };
+		796330AC3093590900C197DC /* DHCPView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DHCPView.swift; sourceTree = "<group>"; };
+		796330AD3093590900C197DC /* NameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameView.swift; sourceTree = "<group>"; };
+		796330AE3093590900C197DC /* PingResultSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PingResultSheet.swift; sourceTree = "<group>"; };
+		796330AF3093590900C197DC /* PingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PingView.swift; sourceTree = "<group>"; };
+		796330B03093590900C197DC /* RJ45PortIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RJ45PortIcon.swift; sourceTree = "<group>"; };
+		796330B13093590900C197DC /* RouterPortsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterPortsView.swift; sourceTree = "<group>"; };
+		796330B23093590900C197DC /* StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusView.swift; sourceTree = "<group>"; };
+		796330B43093590900C197DC /* DeviceCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCardView.swift; sourceTree = "<group>"; };
+		796330B63093590900C197DC /* AddDeviceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDeviceView.swift; sourceTree = "<group>"; };
+		796330B73093590900C197DC /* DeviceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceData.swift; sourceTree = "<group>"; };
+		796330B83093590900C197DC /* DevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesView.swift; sourceTree = "<group>"; };
+		796330B93093590900C197DC /* DeviceViewRecursive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceViewRecursive.swift; sourceTree = "<group>"; };
+		796330BA3093590900C197DC /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		796330BC3093590900C197DC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		796330BE3093590900C197DC /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
+		796330BF3093590900C197DC /* devices.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = devices.json; sourceTree = "<group>"; };
+		796330C03093590900C197DC /* SymbolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolView.swift; sourceTree = "<group>"; };
+		796330C23093590900C197DC /* ConnectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionType.swift; sourceTree = "<group>"; };
+		796330C33093590900C197DC /* IPTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPTools.swift; sourceTree = "<group>"; };
+		796330C43093590900C197DC /* NetworkV4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkV4.swift; sourceTree = "<group>"; };
+		796330C63093590900C197DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		796330C73093590900C197DC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		796330C83093590900C197DC /* Network_Simulator.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Network_Simulator.entitlements; sourceTree = "<group>"; };
+		796330C93093590900C197DC /* Network_SimulatorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network_SimulatorApp.swift; sourceTree = "<group>"; };
+		79CCB2182C91BBA200602831 /* Network Simulator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Network Simulator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		79CCB2152C91BBA200602831 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		796330B33093590900C197DC /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				796330AA3093590900C197DC /* DeviceCardCellView.swift */,
+				796330AB3093590900C197DC /* DeviceCardStatusView.swift */,
+				796330AC3093590900C197DC /* DHCPView.swift */,
+				796330AD3093590900C197DC /* NameView.swift */,
+				796330AE3093590900C197DC /* PingResultSheet.swift */,
+				796330AF3093590900C197DC /* PingView.swift */,
+				796330B03093590900C197DC /* RJ45PortIcon.swift */,
+				796330B13093590900C197DC /* RouterPortsView.swift */,
+				796330B23093590900C197DC /* StatusView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		796330B53093590900C197DC /* Devices */ = {
+			isa = PBXGroup;
+			children = (
+				796330B33093590900C197DC /* Components */,
+				796330B43093590900C197DC /* DeviceCardView.swift */,
+			);
+			path = Devices;
+			sourceTree = "<group>";
+		};
+		796330BB3093590900C197DC /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				796330B63093590900C197DC /* AddDeviceView.swift */,
+				796330B73093590900C197DC /* DeviceData.swift */,
+				796330B83093590900C197DC /* DevicesView.swift */,
+				796330B93093590900C197DC /* DeviceViewRecursive.swift */,
+				796330BA3093590900C197DC /* MapView.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		796330BD3093590900C197DC /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				796330BC3093590900C197DC /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		796330C13093590900C197DC /* Symbol Control */ = {
+			isa = PBXGroup;
+			children = (
+				796330BE3093590900C197DC /* DeviceInfo.swift */,
+				796330BF3093590900C197DC /* devices.json */,
+				796330C03093590900C197DC /* SymbolView.swift */,
+			);
+			path = "Symbol Control";
+			sourceTree = "<group>";
+		};
+		796330C53093590900C197DC /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				796330C23093590900C197DC /* ConnectionType.swift */,
+				796330C33093590900C197DC /* IPTools.swift */,
+				796330C43093590900C197DC /* NetworkV4.swift */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		796330CA3093590900C197DC /* Network Simulator */ = {
+			isa = PBXGroup;
+			children = (
+				796330B53093590900C197DC /* Devices */,
+				796330BB3093590900C197DC /* Map */,
+				796330BD3093590900C197DC /* Preview Content */,
+				796330C13093590900C197DC /* Symbol Control */,
+				796330C53093590900C197DC /* Tools */,
+				796330C63093590900C197DC /* Assets.xcassets */,
+				796330C73093590900C197DC /* ContentView.swift */,
+				796330C83093590900C197DC /* Network_Simulator.entitlements */,
+				796330C93093590900C197DC /* Network_SimulatorApp.swift */,
+			);
+			path = "Network Simulator";
+			sourceTree = "<group>";
+		};
+		79CCB20F2C91BBA200602831 = {
+			isa = PBXGroup;
+			children = (
+				796330CA3093590900C197DC /* Network Simulator */,
+				79CCB2192C91BBA200602831 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		79CCB2192C91BBA200602831 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				79CCB2182C91BBA200602831 /* Network Simulator.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		79CCB2172C91BBA200602831 /* Network Simulator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 79CCB2272C91BBA400602831 /* Build configuration list for PBXNativeTarget "Network Simulator" */;
+			buildPhases = (
+				79CCB2142C91BBA200602831 /* Sources */,
+				79CCB2152C91BBA200602831 /* Frameworks */,
+				79CCB2162C91BBA200602831 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Network Simulator";
+			packageProductDependencies = (
+			);
+			productName = "Network Simulator";
+			productReference = 79CCB2182C91BBA200602831 /* Network Simulator.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		79CCB2102C91BBA200602831 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					79CCB2172C91BBA200602831 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = 79CCB2132C91BBA200602831 /* Build configuration list for PBXProject "Network Simulator" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 79CCB20F2C91BBA200602831;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 79CCB2192C91BBA200602831 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				79CCB2172C91BBA200602831 /* Network Simulator */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		79CCB2162C91BBA200602831 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				796330E13093590900C197DC /* Preview Assets.xcassets in Resources */,
+				796330E23093590900C197DC /* devices.json in Resources */,
+				796330E33093590900C197DC /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		79CCB2142C91BBA200602831 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				796330CB3093590900C197DC /* DeviceCardCellView.swift in Sources */,
+				796330CC3093590900C197DC /* DeviceCardStatusView.swift in Sources */,
+				796330CD3093590900C197DC /* DHCPView.swift in Sources */,
+				796330CE3093590900C197DC /* NameView.swift in Sources */,
+				796330CF3093590900C197DC /* PingResultSheet.swift in Sources */,
+				796330D03093590900C197DC /* PingView.swift in Sources */,
+				796330D13093590900C197DC /* RJ45PortIcon.swift in Sources */,
+				796330D23093590900C197DC /* RouterPortsView.swift in Sources */,
+				796330D33093590900C197DC /* StatusView.swift in Sources */,
+				796330D43093590900C197DC /* DeviceCardView.swift in Sources */,
+				796330D53093590900C197DC /* AddDeviceView.swift in Sources */,
+				796330D63093590900C197DC /* DeviceData.swift in Sources */,
+				796330D73093590900C197DC /* DevicesView.swift in Sources */,
+				796330D83093590900C197DC /* DeviceViewRecursive.swift in Sources */,
+				796330D93093590900C197DC /* MapView.swift in Sources */,
+				796330DA3093590900C197DC /* DeviceInfo.swift in Sources */,
+				796330DB3093590900C197DC /* SymbolView.swift in Sources */,
+				796330DC3093590900C197DC /* ConnectionType.swift in Sources */,
+				796330DD3093590900C197DC /* IPTools.swift in Sources */,
+				796330DE3093590900C197DC /* NetworkV4.swift in Sources */,
+				796330DF3093590900C197DC /* ContentView.swift in Sources */,
+				796330E03093590900C197DC /* Network_SimulatorApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		79CCB2252C91BBA400602831 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		79CCB2262C91BBA400602831 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		79CCB2282C91BBA400602831 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Network Simulator/Network_Simulator.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Network Simulator/Preview Content\"";
+				DEVELOPMENT_TEAM = UGQBX3P3M8;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "hingtattsang.Network-Simulator";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		79CCB2292C91BBA400602831 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Network Simulator/Network_Simulator.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Network Simulator/Preview Content\"";
+				DEVELOPMENT_TEAM = UGQBX3P3M8;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "hingtattsang.Network-Simulator";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		79CCB2132C91BBA200602831 /* Build configuration list for PBXProject "Network Simulator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				79CCB2252C91BBA400602831 /* Debug */,
+				79CCB2262C91BBA400602831 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		79CCB2272C91BBA400602831 /* Build configuration list for PBXNativeTarget "Network Simulator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				79CCB2282C91BBA400602831 /* Debug */,
+				79CCB2292C91BBA400602831 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 79CCB2102C91BBA200602831 /* Project object */;
+}
